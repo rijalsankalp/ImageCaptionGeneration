@@ -173,3 +173,5 @@ cython_debug/
 
 flickr8k/
 *.ipynb
+
+.venv_imgcap/

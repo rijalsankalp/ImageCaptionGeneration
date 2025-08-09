@@ -76,20 +76,19 @@ def main():
             param.requires_grad = False
         print("Encoder weights frozen.")
 
-    # Freeze all GPT-2 decoder layers except the last block and lm_head if specified
-    if config['model'].get('freeze_decoder_except_last', False):
-        decoder = model.module.decoder if hasattr(model.module, 'decoder') else model.module.transformer
-        # Freeze all transformer blocks except the last
-        for block in decoder.transformer.h[:-1]:
-            for param in block.parameters():
+    # Always freeze all GPT-2 decoder layers except the last block and lm_head
+    decoder = model.module.decoder if hasattr(model.module, 'decoder') else model.module.transformer
+    # Freeze all transformer blocks except the last
+    for block in decoder.transformer.h[:-1]:
+        for param in block.parameters():
+            param.requires_grad = False
+    print("All GPT-2 blocks except the last are frozen.")
+    # Optionally freeze other decoder parts except lm_head and last block
+    for name, param in decoder.named_parameters():
+        if not (name.startswith('transformer.h.11') or name.startswith('lm_head')):
+            if not name.startswith('transformer.h.'):  # freeze everything except blocks and lm_head
                 param.requires_grad = False
-        print("All GPT-2 blocks except the last are frozen.")
-        # Optionally freeze other decoder parts except lm_head and last block
-        for name, param in decoder.named_parameters():
-            if not (name.startswith('transformer.h.11') or name.startswith('lm_head')):
-                if not name.startswith('transformer.h.'):  # freeze everything except blocks and lm_head
-                    param.requires_grad = False
-        print("All GPT-2 decoder parameters except last block and lm_head are frozen.")
+    print("All GPT-2 decoder parameters except last block and lm_head are frozen.")
 
     optimizer = AdamW(model.parameters(), lr=learning_rate)
 
