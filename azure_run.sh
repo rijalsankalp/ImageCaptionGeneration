@@ -6,7 +6,7 @@
 
 # Environment setup: Create or use Python 3.10 venv
 PYTHON_VERSION="3.10"
-VENV_DIR=".venv_imgcap"
+VENV_DIR=".imgcap"
 
 if [ ! -d "$VENV_DIR" ]; then
     echo "Creating Python $PYTHON_VERSION virtual environment at $VENV_DIR..."
