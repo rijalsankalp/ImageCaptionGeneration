@@ -1,0 +1,42 @@
+# Configuration for frozen encoder experiment
+
+# Data configuration
+data:
+  data_path: "flickr8k/captions.txt"
+  image_dir: "flickr8k/Images"
+  max_target_length: 128
+  train_test_split: 0.2
+  random_seed: 42
+
+# Model configuration
+model:
+  image_encoder_model: "google/vit-base-patch16-224-in21k"
+  text_decoder_model: "gpt2"
+  freeze_encoder: true
+  output_dir: "final_model_frozen"
+  best_model_dir: "best_model_frozen"
+
+# Training configuration
+training:
+  batch_size: 4
+  learning_rate: 5e-5
+  num_epochs: 5
+  save_steps: 500
+  eval_steps: 500
+  gradient_accumulation_steps: 1
+  weight_decay: 0.01
+  adam_epsilon: 1e-8
+  warmup_steps: 0
+
+# Generation configuration
+generation:
+  num_beams: 4
+  max_length: 128
+  early_stopping: true
+
+# Evaluation configuration
+evaluation:
+  num_samples: 5
+  save_images: true
+  metrics:
+    - "rouge"
