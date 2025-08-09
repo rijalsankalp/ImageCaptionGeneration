@@ -4,8 +4,8 @@
 # This script automates the entire workflow for image captioning ablation study
 
 
-# Environment setup: Create or use Python 3.9 venv
-PYTHON_VERSION="3.9"
+# Environment setup: Create or use Python 3.10 venv
+PYTHON_VERSION="3.10"
 VENV_DIR=".venv_imgcap"
 
 if [ ! -d "$VENV_DIR" ]; then
