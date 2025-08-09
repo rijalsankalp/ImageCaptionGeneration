@@ -3,9 +3,25 @@
 # Azure ML Image Captioning Pipeline Script
 # This script automates the entire workflow for image captioning ablation study
 
-# Environment setup
-echo "Setting up environment..."
-pip install -r requirements.txt
+
+# Environment setup: Create or use Python 3.9 venv
+PYTHON_VERSION="3.9"
+VENV_DIR=".venv_imgcap"
+
+if [ ! -d "$VENV_DIR" ]; then
+    echo "Creating Python $PYTHON_VERSION virtual environment at $VENV_DIR..."
+    python$PYTHON_VERSION -m venv $VENV_DIR
+fi
+
+echo "Activating virtual environment..."
+source $VENV_DIR/bin/activate
+
+echo "Using Python: $(which python)"
+python --version
+
+echo "Installing requirements..."
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 # Set up Git authentication if needed
 if [ -f "setup_git_auth.sh" ]; then
